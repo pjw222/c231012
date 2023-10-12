@@ -1,6 +1,6 @@
 # Spring Framework
 - Library
-		- Oracle jebc
+		- Oracle jdbc
 	
 		- Servlet
 	
