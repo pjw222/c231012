@@ -15,5 +15,6 @@
 	<classpathentry kind="lib" path="lib/org.springframework.core-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.expression-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="lib/org.springframework.jdbc-3.0.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/org.springframework.transaction-3.0.7.RELEASE.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
