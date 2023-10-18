@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.dao.DuplicateKeyException;
 
 import c231017.factory.DAOFactory;
 import c231017.user.UserBean;
@@ -52,14 +53,18 @@ public class UserDAOTest {
 	}
 
 	@Before
-	public void initialize() throws SQLException {
+	public void initialize() throws Exception {
 
 		TestUserDAO test = context.getBean("testUserDAO", TestUserDAO.class);
 		UserSpringUserDAO dao = context.getBean("userSpringUserDAO", UserSpringUserDAO.class);
 
-//		test.drop();
-
-		test.create();
+		test.drop();
+		try {
+			test.create();
+			
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
 		
 		user1.setName("개미123");
 		user1.setUserId("an52");
@@ -71,7 +76,7 @@ public class UserDAOTest {
 	}
 	
 	@After
-	public void dropTable() throws SQLException{
+	public void dropTable() {
 		TestUserDAO test = context.getBean("testUserDAO", TestUserDAO.class);
 
 		test.drop();
@@ -79,7 +84,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-	public void add() throws SQLException{
+	public void add() {
 		UserSpringUserDAO dao = context.getBean("userSpringUserDAO", UserSpringUserDAO.class);
 		
 		UserBean user = new UserBean();
@@ -93,7 +98,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-	public void get() throws SQLException{
+	public void get() {
 		UserSpringUserDAO dao = context.getBean("userSpringUserDAO", UserSpringUserDAO.class);
 		
 		UserInterface createdUser = dao.get(user1.getUserId());
@@ -106,7 +111,7 @@ public class UserDAOTest {
 	}
 	
 	@Test
-	public void addAndGet() throws SQLException {
+	public void addAndGet() {
 //		ApplicationContext context = new AnnotationConfigApplicationContext(DAOFactory.class);
 		UserSpringUserDAO dao = context.getBean("userSpringUserDAO", UserSpringUserDAO.class);
 //		TestUserDAO test = context.getBean("testUserDAO", TestUserDAO.class);
@@ -126,5 +131,29 @@ public class UserDAOTest {
 		System.out.println("addAndGet");
 
 	}
+	
+	@Test(expected = DuplicateKeyException.class)
+	public void duplicate() {
+		UserSpringUserDAO dao = context.getBean("userSpringUserDAO", UserSpringUserDAO.class);
+		
+		UserBean user2 = new UserBean();
+		
+		user2.setUserId("asdf");
+		user2.setName("asdf");
+		user2.setPassword("asdf");
+		
+		dao.add(user2);
+		UserBean user3 = new UserBean();
+		user3.setUserId("asdf");
+		user3.setName("asdf");
+		user3.setPassword("asdf");
+		
+		dao.add(user3);
+		
+	}
 
+	
+	
+	
+	
 }
