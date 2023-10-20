@@ -27,7 +27,7 @@ public class UserTest {
 	@Before
 	public void initialize() throws Exception {
 
-		test.drop();
+//		test.drop();
 		try {
 			test.create();
 
@@ -47,7 +47,7 @@ public class UserTest {
 	@After
 	public void dropTable() {
 
-		test.drop();
+//		test.drop();
 		System.out.println("after");
 	}
 
@@ -56,9 +56,9 @@ public class UserTest {
 
 		UserBean user = new UserBean();
 
-		user.setName("개미");
-		user.setUserId("an53");
-		user.setPassword("ss23");
+		user.setName("송성민");
+		user.setUserId("ssm");
+		user.setPassword("1234");
 
 		dao.add(user);
 		System.out.println("add");
@@ -82,9 +82,9 @@ public class UserTest {
 //		test.drop();
 //		test.create();
 		UserBean user = new UserBean();
-		user.setName("개미1");
-		user.setUserId("an534");
-		user.setPassword("ss2");
+		user.setName("이민규");
+		user.setUserId("lmg");
+		user.setPassword("1234");
 
 		dao.add(user);
 
