@@ -1,8 +1,9 @@
-package c231024.test.java.com.classJava.board;
+package c231025.test.java.com.classjava.board;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 
+import java.lang.reflect.Proxy;
 import java.sql.Date;
 import java.util.List;
 
@@ -12,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.PlatformTransactionManager;
 
 import c231024.main.java.com.classJava.board.dao.BoardDAO;
 import c231024.main.java.com.classJava.board.domain.Board;
@@ -22,6 +24,7 @@ import c231024.main.java.com.classJava.user.dao.UserDAO;
 import c231024.main.java.com.classJava.user.domain.User;
 import c231024.main.java.com.classJava.user.service.UserService;
 import c231024.main.java.com.classJava.user.service.UserServiceImpl;
+import c231025.main.java.com.classjava.boardService.TransactionHandler;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "applicationContext.xml", "/c231023/dataSource.xml" })
@@ -34,6 +37,8 @@ public class BoardTest {
 	BoardService boardService;
 	@Autowired
 	BoardServiceImpl boardServiceImpl;
+	@Autowired
+	PlatformTransactionManager transactionManager;
 	
 	@Before
 	public void initialize() {
@@ -62,12 +67,23 @@ public class BoardTest {
 	
 	@Test
 	public void updateAll() {
+		TransactionHandler txHandler = new TransactionHandler();
+		txHandler.setTarget(boardServiceImpl);
+		txHandler.setPattern("update");
+		txHandler.setTransactionManager(transactionManager);
+		BoardService txBoardService = (BoardService) Proxy.newProxyInstance(
+				getClass().getClassLoader(),
+				new Class[] {BoardService.class},
+				txHandler);
+		
+		
 		User user = userDAO.get("kwj");
-		try {
-			boardService.updateAll(user);
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
+		txBoardService.updateAll(user);
+//		try {
+//			boardService.updateAll(user);
+//		}catch(Exception e) {
+//			e.printStackTrace();
+//		}
 	}
 	@Test
 	public void add() {
@@ -75,13 +91,7 @@ public class BoardTest {
 		boardService.add(board, 1);
 	}
 	
-	@Test
-	public void test() {
-		MockUserService userService = new MockUserService ();
-		User user = userService.get(1);
-		Board board = new Board(user, "임시 데이터 테스트", "테스트중입니다.");
-		boardService.add(board, 1);
-	}
+
 	
 	
 	public static class MockUserService implements UserService{

@@ -72,6 +72,16 @@ public class BoardServiceImpl implements BoardService {
 
 
 	public void updateInner(Board board, User user) {
+
+	}
+	
+	public void updateAllInner(User user) {
+
+	}
+
+	@Override
+	public void update(Board board, User user) {
+		// TODO Auto-generated method stub
 		User writer = board.getUser();
 		if(writer.getId() == user.getId()) {
 			boardDAO.update(board);
@@ -79,8 +89,10 @@ public class BoardServiceImpl implements BoardService {
 			throw new RuntimeException("wrong user");
 		}
 	}
-	
-	public void updateAllInner(User user) {
+
+	@Override
+	public void updateAll(User user) {
+		// TODO Auto-generated method stub
 		List<Board> list = getAll();
 		for(int i = 0;i<list.size();i++) {
 			if(i == 2)user = new User("김남균", "knk", "1234");
@@ -93,17 +105,6 @@ public class BoardServiceImpl implements BoardService {
 				throw new RuntimeException("wrong user");
 			}
 		}
-	}
-
-	@Override
-	public void update(Board board, User user) {
-		// TODO Auto-generated method stub
-		   
-	}
-
-	@Override
-	public void updateAll(User user) {
-		// TODO Auto-generated method stub
 		
 	}
 

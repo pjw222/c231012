@@ -16,7 +16,7 @@ public class UserServiceImpl implements UserService {
 	
 	public boolean isLogIn(int id)
 	{
-		return false;
+		return true;
 	}
 
 }
