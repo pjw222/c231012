@@ -21,8 +21,8 @@ public class BoardServiceTx implements BoardService {
 	public void setTransactionManager(PlatformTransactionManager transactionManager) {
 		this.transactionManager = transactionManager;
 	}
-	public void add(Board board, int userId) {
-		boardService.add(board, userId);
+	public void add(Board board) {
+		boardService.add(board);
 	}
 	public Board get(int id) {
 		return boardService.get(id);

@@ -5,7 +5,7 @@ public class SimpleStringImpl implements SimpleString {
 		return "Hello " + name;
 	}
 	public String intro(String name) {
-		return "My Name Is " + name;
+		return "My name is " + name;
 	}
 	public String bye(String name) {
 		return "Bye " + name;
